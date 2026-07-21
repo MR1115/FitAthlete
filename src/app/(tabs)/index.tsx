@@ -1,3 +1,4 @@
+import CalendarScreen from '@/components/Calendar';
 import HomeHeader from '@/components/HomeHeader';
 import { globalStyles } from '@/styles/global';
 import { ScrollView, Text } from 'react-native';
@@ -7,6 +8,7 @@ export default function HomeScreen() {
     <ScrollView style={globalStyles.container}>
       <Text style={globalStyles.title}>FitAthlete</Text>
       <HomeHeader />
+      <CalendarScreen />
     </ScrollView>
   );
 }
