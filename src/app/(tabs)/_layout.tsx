@@ -25,6 +25,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name='explore'
+        options={{
+          title: 'Explore',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='search' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name='bookings'
         options={{
           title: 'Bookings',
@@ -34,20 +43,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='mentors'
-        options={{
-          title: 'Mentors',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='person' size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name='messages'
         options={{
           title: 'Messages',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='chatbubbles' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='profile'
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='person' size={size} color={color} />
           ),
         }}
       />

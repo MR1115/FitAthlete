@@ -1,10 +1,10 @@
 import { useState } from "react";
 import {
-    Dimensions,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
+  Dimensions,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 import { Calendar } from "react-native-calendars";
@@ -96,7 +96,7 @@ export default function CalendarScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1a1a2e",
+    backgroundColor: "#525252b2",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   card: {
     width: calendarWidth,
     backgroundColor: "#FFFFFF",
-    borderRadius: 24,
+    borderRadius: 28,
     padding: 12,
     alignItems: "center",
     shadowColor: "#000",

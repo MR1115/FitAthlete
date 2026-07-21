@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#1a1a2e',
+  background: '#02020242',
   header: '#242444',
   surface: '#2a2a4a',
-  primary: '#4fc3f7',
-  text: '#ffffff',
-  textSecondary: '#a0a0b0',
+  primary: '#ffffff',
+  text: '#000000',
+  textSecondary: '#202020cc',
   alert: '#ff5252',
 };
 
@@ -14,13 +14,15 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    paddingTop: 0,
+    paddingHorizontal: 0,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: colors.text,
+    marginLeft: 24,
+    marginTop: 24,
   },
   sectionTitle: {
     fontSize: 18,
@@ -34,8 +36,14 @@ export const globalStyles = StyleSheet.create({
     fontSize: 14,
   },
   header: {
+    backgroundColor: '#525252b2',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    color: colors.header,
+  },
+  space: {
+    flexDirection: 'row',
+    padding: 24,
   },
 });
