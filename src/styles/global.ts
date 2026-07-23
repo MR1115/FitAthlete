@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#02020242',
+  background: '#1a1a2e',
   header: '#242444',
   surface: '#2a2a4a',
-  primary: '#ffffff',
-  text: '#000000',
-  textSecondary: '#202020cc',
+  primary: '#4fc3f7',
+  text: '#ffffff',
+  textSecondary: '#a0a0b0',
   alert: '#ff5252',
 };
 
@@ -36,14 +36,8 @@ export const globalStyles = StyleSheet.create({
     fontSize: 14,
   },
   header: {
-    backgroundColor: '#525252b2',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    color: colors.header,
-  },
-  space: {
-    flexDirection: 'row',
-    padding: 24,
   },
 });

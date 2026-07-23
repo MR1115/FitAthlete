@@ -1,5 +1,4 @@
-import { colors, globalStyles } from '@/styles/global';
-import { Ionicons } from '@expo/vector-icons';
+import { colors } from '@/styles/global';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function HomeHeader() {
@@ -10,40 +9,17 @@ export default function HomeHeader() {
   });
 
   return (
-    <View>
-      <View style={globalStyles.header}>
-        <View>
-          <Text style={globalStyles.title}>FitAthlete</Text>
-          <View style={globalStyles.space}></View>
-          <Text style={styles.subheader}>Building 1% Better Athletes Each Day.</Text>
-        </View>
-      </View>
-      <View>
-        <View style={globalStyles.space}></View>
-        <View>
-          <Text style={styles.subheader}>Upcoming Events
-          <Text> </Text>
-          <Ionicons name='calendar' size={24} color={colors.text} /></Text>
-        </View>
-      </View>
+    <View style={styles.container}>
+      <Text style={styles.brand}>FitAthlete</Text>
+      <Text style={styles.tagline}>Building 1% Better Athletes Each Day.</Text>
+      <Text style={styles.date}>{currentDate}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  date: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginTop: 4,
-    marginBottom: 30,
-  },
-  subheader: {
-    alignSelf: 'auto',
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: colors.textSecondary,
-    marginTop: 4,
-    marginBottom: 20,
-    marginLeft: 24,
-  },
+  container: { marginLeft: 24, marginTop: 24, marginBottom: 8 },
+  brand: { fontSize: 28, fontWeight: 'bold', color: colors.text },
+  tagline: { fontSize: 15, fontWeight: '600', color: colors.textSecondary, marginTop: 4 },
+  date: { fontSize: 13, color: colors.textSecondary, marginTop: 8 },
 });
