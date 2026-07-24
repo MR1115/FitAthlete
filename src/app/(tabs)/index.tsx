@@ -1,6 +1,6 @@
-import AppCalendar from '@/components/Calendar';
-import EventGrid, { type UpcomingEvent } from '@/components/EventGrid';
-import HomeHeader from '@/components/HomeHeader';
+import AppCalendar from '@/components/(home)/Calendar';
+import EventGrid, { type UpcomingEvent } from '@/components/(home)/EventGrid';
+import HomeHeader from '@/components/(home)/HomeHeader';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { colors, globalStyles } from '@/styles/global';
