@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
@@ -36,6 +37,7 @@ export default function ExploreScreen() {
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     loadMentors();
@@ -79,6 +81,14 @@ export default function ExploreScreen() {
 
     setMentors(mapped);
     setLoading(false);
+  }
+
+  async function handleRefresh() {
+    setRefreshing(true);
+
+    await loadMentors();
+
+    setRefreshing(false);
   }
 
   function toggleSport(sport: string) {
@@ -137,6 +147,9 @@ export default function ExploreScreen() {
         keyExtractor={(item) => item.profile_id}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
         renderItem={({ item }) => (
           <MentorCard
             mentor={item}

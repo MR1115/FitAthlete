@@ -1,78 +1,161 @@
+import ProfileHeader from '@/components/(profile)/ProfileHeader';
+import ProfileSection from '@/components/(profile)/ProfileSection';
+import SettingsRow from '@/components/(profile)/SettingsRow';
 import { useAuth } from '@/context/AuthContext';
-import { colors, globalStyles } from '@/styles/global';
-import { Ionicons } from '@expo/vector-icons';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { globalStyles } from '@/styles/global';
+import { router } from 'expo-router';
+import { ScrollView, StyleSheet } from 'react-native';
 
 export default function ProfileScreen() {
   const { profile, signOut } = useAuth();
 
+  if (!profile) return null;
+
   return (
-    <ScrollView style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      <ProfileHeader
+        fullName={profile.full_name}
+        accountType={profile.account_type}
+        city={profile.city}
+        state={profile.state}
+        avatarUrl={profile.avatar_url}
+        onEditPress={() => router.push('../edit-profile')}
+      />
 
-      <View style={styles.card}>
-        <Text style={styles.name}>{profile?.full_name}</Text>
-        <Text style={styles.accountType}>{profile?.account_type === 'mentor' ? 'Mentor' : 'Parent / Athlete'}</Text>
-        {profile?.city && (
-          <View style={styles.row}>
-            <Ionicons name="location-outline" size={14} color={colors.textSecondary} />
-            <Text style={styles.detail}>{profile.city}</Text>
-          </View>
-        )}
-        {profile?.email && (
-          <View style={styles.row}>
-            <Ionicons name="mail-outline" size={14} color={colors.textSecondary} />
-            <Text style={styles.detail}>{profile.email}</Text>
-          </View>
-        )}
-        {/* {profile?.phone && (
-          <View style={styles.row}>
-            <Ionicons name="call-outline" size={14} color={colors.textSecondary} />
-            <Text style={styles.detail}>{profile.phone}</Text>
-          </View>
-        )} */}
-      </View>
+      {/* ---------------- Profile ---------------- */}
 
-      <Text style={styles.note}>Editing your details is coming soon.</Text>
+      <ProfileSection title="Profile">
 
-      <Pressable style={styles.signOutButton} onPress={signOut}>
-        <Ionicons name="log-out-outline" size={18} color={colors.alert} />
-        <Text style={styles.signOutText}>Log Out</Text>
-      </Pressable>
+        <SettingsRow
+          icon="person-outline"
+          title="Full Name"
+          value={profile.full_name}
+          onPress={() => router.push('../edit-profile')}
+        />
+
+        <SettingsRow
+          icon="mail-outline"
+          title="Email"
+          value={profile.email ?? 'Not set'}
+        />
+
+        <SettingsRow
+          icon="call-outline"
+          title="Phone"
+          value={profile.phone ?? 'Not set'}
+          onPress={() => router.push('../edit-profile')}
+        />
+
+        <SettingsRow
+          icon="location-outline"
+          title="Location"
+          value={
+            profile.city
+              ? `${profile.city}${profile.state ? `, ${profile.state}` : ''}`
+              : 'Not set'
+          }
+          onPress={() => router.push('../edit-profile')}
+        />
+
+      </ProfileSection>
+
+      {/* ---------------- Account ---------------- */}
+
+      <ProfileSection title="Account">
+
+        <SettingsRow
+          icon="notifications-outline"
+          title="Notifications"
+          value="Coming Soon"
+        />
+
+        <SettingsRow
+          icon="lock-closed-outline"
+          title="Privacy"
+          value="Coming Soon"
+        />
+
+        <SettingsRow
+          icon="help-circle-outline"
+          title="Help & Support"
+          value="Coming Soon"
+        />
+
+        <SettingsRow
+          icon="information-circle-outline"
+          title="About FitAthlete"
+          value="v1.0"
+        />
+
+      </ProfileSection>
+
+      {/* ---------------- Mentor ---------------- */}
+
+      {profile.account_type === 'mentor' && (
+        <ProfileSection title="Mentor Settings">
+
+          <SettingsRow
+            icon="create-outline"
+            title="Edit Mentor Profile"
+            onPress={() => router.push('../edit-mentor')}
+          />
+
+          <SettingsRow
+            icon="calendar-outline"
+            title="Availability"
+            value="Coming Soon"
+          />
+
+          <SettingsRow
+            icon="cash-outline"
+            title="Session Pricing"
+            onPress={() => router.push('../edit-mentor')}
+          />
+
+          <SettingsRow
+            icon="football-outline"
+            title="Sports"
+            onPress={() => router.push('../edit-mentor')}
+          />
+
+          <SettingsRow
+            icon="school-outline"
+            title="Experience"
+            onPress={() => router.push('../edit-mentor')}
+          />
+
+          <SettingsRow
+            icon="document-text-outline"
+            title="Bio"
+            onPress={() => router.push('../edit-mentor')}
+          />
+        </ProfileSection>
+      )}
+
+      {/* ---------------- Log Out ---------------- */}
+
+      <ProfileSection title="">
+
+        <SettingsRow
+          icon="log-out-outline"
+          title="Log Out"
+          danger
+          onPress={signOut}
+        />
+
+      </ProfileSection>
+
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 24,
-    marginHorizontal: 24,
+  content: {
+    paddingTop: 20,
+    paddingBottom: 40,
   },
-  name: { color: colors.text, fontSize: 18, fontWeight: '700' },
-  accountType: { color: colors.primary, fontSize: 12, fontWeight: '600', marginTop: 4 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 },
-  detail: { color: colors.textSecondary, fontSize: 14 },
-  note: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    fontStyle: 'italic',
-    marginTop: 20,
-    marginHorizontal: 24,
-  },
-  signOutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    borderWidth: 1,
-    borderColor: colors.alert,
-    borderRadius: 12,
-    paddingVertical: 13,
-    marginTop: 30,
-    marginHorizontal: 24,
-    marginBottom: 40,
-  },
-  signOutText: { color: colors.alert, fontWeight: '600', fontSize: 14 },
 });

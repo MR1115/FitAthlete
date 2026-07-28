@@ -8,6 +8,7 @@ export interface Profile {
   phone: string | null;
   city: string | null;
   state: string | null;
+  avatar_url: string | null;
   created_at: string;
   updated_at: string;
 }

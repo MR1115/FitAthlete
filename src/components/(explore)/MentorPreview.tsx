@@ -1,12 +1,12 @@
 import { colors } from '@/styles/global';
 import { Ionicons } from '@expo/vector-icons';
 import {
-    Modal,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 
 export type MentorPreview = {
@@ -130,7 +130,8 @@ export default function MentorPreview({
                 : 'This mentor has not written a bio yet.'}
             </Text>
           </ScrollView>
-
+          
+          {/** View Profile Button*/}
           <Pressable
             style={styles.profileButton}
             onPress={onViewProfile}
@@ -139,7 +140,8 @@ export default function MentorPreview({
               View Full Profile
             </Text>
           </Pressable>
-
+          
+          {/** Messaging Button */}
           <Pressable
             style={styles.disabledButton}
           >
