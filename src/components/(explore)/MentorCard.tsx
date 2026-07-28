@@ -1,6 +1,7 @@
 import { colors } from '@/styles/global';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Avatar from '../(profile)/Avatar';
 
 export type Mentor = {
   profile_id: string;
@@ -10,6 +11,7 @@ export type Mentor = {
   sports: string[];
   hourly_rate: number | null;
   years_experience: number | null;
+  avatar_url: string | null;
 };
 
 type Props = {
@@ -29,11 +31,12 @@ export default function MentorCard({
       ]}
       onPress={onPress}
     >
+      {/* Profile Images */}
       <View style={styles.avatar}>
-        <Ionicons
-          name="person"
-          size={34}
-          color={colors.primary}
+        <Avatar
+          uri={mentor.avatar_url}
+          name={mentor.full_name}
+          size={64}
         />
       </View>
 

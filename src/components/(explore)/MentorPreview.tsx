@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import Avatar from '../(profile)/Avatar';
 
 export type MentorPreview = {
   profile_id: string;
@@ -18,6 +19,7 @@ export type MentorPreview = {
   hourly_rate: number | null;
   years_experience: number | null;
   bio?: string | null;
+  avatar_url: string | null;
 };
 
 type Props = {
@@ -53,10 +55,10 @@ export default function MentorPreview({
 
           <View style={styles.header}>
             <View style={styles.avatar}>
-              <Ionicons
-                name="person"
-                size={44}
-                color={colors.primary}
+              <Avatar
+                uri={mentor.avatar_url}
+                name={mentor.full_name}
+                size={64}
               />
             </View>
 

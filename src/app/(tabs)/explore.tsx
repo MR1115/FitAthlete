@@ -5,7 +5,6 @@ import MentorPreview from '@/components/(explore)/MentorPreview';
 import SearchBar from '@/components/(explore)/SearchBar';
 import { supabase } from '@/lib/supabase';
 import { colors, globalStyles } from '@/styles/global';
-import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -26,6 +25,7 @@ type MentorRow = {
     full_name: string;
     city: string | null;
     state: string | null;
+    avatar_url: string | null;
   } | null;
 };
 
@@ -57,7 +57,8 @@ export default function ExploreScreen() {
         profiles (
           full_name,
           city,
-          state
+          state,
+          avatar_url
         )
       `);
 
@@ -74,6 +75,7 @@ export default function ExploreScreen() {
         full_name: mentor.profiles?.full_name ?? '',
         city: mentor.profiles?.city ?? null,
         state: mentor.profiles?.state ?? null,
+        avatar_url: mentor.profiles?.avatar_url ?? null,
         sports: mentor.sports ?? [],
         hourly_rate: mentor.hourly_rate,
         years_experience: mentor.years_experience,
@@ -183,7 +185,7 @@ export default function ExploreScreen() {
           if (!selectedMentor) return;
 
           setSelectedMentor(null);
-          router.push(`../mentor/${selectedMentor.profile_id}`);
+          //router.push(`../mentor/${selectedMentor.profile_id}`);
         }}
       />
     </View>
