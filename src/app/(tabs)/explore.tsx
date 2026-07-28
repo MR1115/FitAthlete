@@ -140,6 +140,7 @@ export default function ExploreScreen() {
         value={search}
         onChangeText={setSearch}
         onFilterPress={() => setFilterVisible(true)}
+        onRefresh={handleRefresh}
       />
 
       <FlatList

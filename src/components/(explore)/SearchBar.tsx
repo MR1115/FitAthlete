@@ -6,12 +6,14 @@ type Props = {
   value: string;
   onChangeText: (text: string) => void;
   onFilterPress: () => void;
+  onRefresh: () => Promise<void>
 };
 
 export default function SearchBar({
   value,
   onChangeText,
   onFilterPress,
+  onRefresh,
 }: Props) {
   return (
     <View style={styles.container}>
@@ -30,6 +32,14 @@ export default function SearchBar({
         placeholderTextColor={colors.textSecondary}
         returnKeyType="search"
       />
+
+      <Pressable onPress={onRefresh}>
+        <Ionicons
+          name="refresh"
+          size={24}
+          color={colors.primary}
+        />
+      </Pressable>
 
       <Pressable
         style={({ pressed }) => [
