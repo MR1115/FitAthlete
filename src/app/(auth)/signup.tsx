@@ -1,19 +1,26 @@
+// Signup Screen
+// This screen allows a new user to create an account using their email and password.
+// It validates the user's input, creates the account with Supabase, and asks the
+// user to confirm their email before logging in.
+
 import { supabase } from '@/lib/supabase';
 import { colors, globalStyles } from '@/styles/global';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
+// Main signup screen component.
 export default function SignupScreen() {
+  // Store user input and UI state.
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,35 +28,49 @@ export default function SignupScreen() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [checkEmailNotice, setCheckEmailNotice] = useState(false);
 
+  // Creates a new account after validating the user's input.
   async function handleEmailSignup() {
     setError(null);
+
+    // Make sure all required fields are filled in.
     if (!email.trim() || !password) {
       setError('Enter an email and password.');
       return;
     }
+
+    // Require a minimum password length.
     if (password.length < 6) {
       setError('Password must be at least 6 characters.');
       return;
     }
+
+    // Ensure both password fields match.
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
+
+    // Send the signup request to Supabase.
     setIsSubmitting(true);
     const { error: signUpError, data } = await supabase.auth.signUp({
       email: email.trim(),
       password,
     });
     setIsSubmitting(false);
+
+    // Display any signup errors.
     if (signUpError) {
       setError(signUpError.message);
       return;
     }
+
+    // If email confirmation is required, show the confirmation message.
     if (data.session === null) {
       setCheckEmailNotice(true);
     }
   }
 
+  // Show a confirmation message after successful signup.
   if (checkEmailNotice) {
     return (
       <View style={[globalStyles.container, styles.centerContent]}>
@@ -57,6 +78,8 @@ export default function SignupScreen() {
         <Text style={styles.checkEmailBody}>
           We sent a confirmation link to {email}. Tap it, then come back and log in.
         </Text>
+
+        {/* Return to the login screen */}
         <Link href="../login" asChild>
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>Back to Log In</Text>
@@ -66,6 +89,7 @@ export default function SignupScreen() {
     );
   }
 
+  // Display the signup form.
   return (
     <KeyboardAvoidingView
       style={styles.flex}
@@ -107,7 +131,10 @@ export default function SignupScreen() {
               placeholderTextColor={colors.textSecondary}
               secureTextEntry
             />
+
+            {/* Display an error message if signup fails */}
             {error && <Text style={styles.error}>{error}</Text>}
+
             <Pressable
               style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
               onPress={handleEmailSignup}
@@ -119,6 +146,7 @@ export default function SignupScreen() {
             </Pressable>
           </View>
 
+          {/* Link to the login screen for existing users */}
           <Link href="../login" asChild>
             <Pressable style={styles.linkWrap}>
               <Text style={styles.link}>Already have an account? Log in</Text>
@@ -130,6 +158,7 @@ export default function SignupScreen() {
   );
 }
 
+// Styles used by the signup screen.
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: colors.background },
   scrollContent: { flexGrow: 1, justifyContent: 'center' },

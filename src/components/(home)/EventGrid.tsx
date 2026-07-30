@@ -12,7 +12,12 @@ export interface UpcomingEvent {
   color?: string;
 }
 
-export default function EventGrid({ events }: { events: UpcomingEvent[] }) {
+type Props = {
+  events: UpcomingEvent[];
+  onPressEvent?: (event: UpcomingEvent) => void;
+};
+
+export default function EventGrid({ events, onPressEvent }: Props) {
   return (
     <View style={styles.grid}>
       {events.map((event) => (
@@ -25,6 +30,7 @@ export default function EventGrid({ events }: { events: UpcomingEvent[] }) {
           location={event.location}
           price={event.price}
           color={event.color}
+          onPress={onPressEvent ? () => onPressEvent(event) : undefined}
         />
       ))}
     </View>

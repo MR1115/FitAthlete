@@ -190,6 +190,7 @@ export default function SetupMentorScreen() {
   );
 }
 
+
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: colors.background },
   container: { flex: 1, backgroundColor: colors.background, paddingHorizontal: 20 },

@@ -1,6 +1,6 @@
 import { colors } from '@/styles/global';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type EventCardProps = {
   sport: string;
@@ -10,6 +10,7 @@ type EventCardProps = {
   location: string;
   price: string;
   color?: string;
+  onPress?: () => void;
 };
 
 export default function EventCard({
@@ -20,9 +21,10 @@ export default function EventCard({
   location,
   price,
   color = colors.primary,
+  onPress,
 }: EventCardProps) {
-  return (
-    <View style={[styles.card, { borderLeftColor: color }]}>
+  const content = (
+    <>
       <Text style={styles.title} numberOfLines={1}>
         {sport}
       </Text>
@@ -48,8 +50,25 @@ export default function EventCard({
         </Text>
       </View>
       <Text style={styles.price}>{price}</Text>
-    </View>
+    </>
   );
+
+  if (onPress) {
+    return (
+      <Pressable
+        style={({ pressed }) => [
+          styles.card,
+          { borderLeftColor: color },
+          pressed && styles.pressed,
+        ]}
+        onPress={onPress}
+      >
+        {content}
+      </Pressable>
+    );
+  }
+
+  return <View style={[styles.card, { borderLeftColor: color }]}>{content}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -60,6 +79,9 @@ const styles = StyleSheet.create({
     flexBasis: '47%',
     flexGrow: 1,
     borderLeftWidth: 4,
+  },
+  pressed: {
+    opacity: 0.8,
   },
   title: {
     fontSize: 16,
