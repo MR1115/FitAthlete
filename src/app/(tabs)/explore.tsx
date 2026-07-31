@@ -5,6 +5,7 @@ import MentorPreview from '@/components/(explore)/MentorPreview';
 import SearchBar from '@/components/(explore)/SearchBar';
 import { supabase } from '@/lib/supabase';
 import { colors, globalStyles } from '@/styles/global';
+import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -95,9 +96,7 @@ export default function ExploreScreen() {
 
   function toggleSport(sport: string) {
     setSelectedSports((prev) =>
-      prev.includes(sport)
-        ? prev.filter((s) => s !== sport)
-        : [...prev, sport]
+      prev.includes(sport) ? prev.filter((s) => s !== sport) : [...prev, sport]
     );
   }
 
@@ -181,11 +180,11 @@ export default function ExploreScreen() {
         mentor={selectedMentor}
         visible={selectedMentor !== null}
         onClose={() => setSelectedMentor(null)}
-        onViewProfile={() => {
+        onBookSession={() => {
           if (!selectedMentor) return;
-
+          const mentorId = selectedMentor.profile_id;
           setSelectedMentor(null);
-          //router.push(`../mentor/${selectedMentor.profile_id}`);
+          router.push({ pathname: '../book-session', params: { mentorId } });
         }}
       />
     </View>

@@ -80,10 +80,16 @@ export default function SessionDetailSheet({ session, visible, onClose, onCancel
           <Text style={styles.sport}>{session.sport}</Text>
           <Text style={styles.mentor}>with {session.mentorName}</Text>
 
-          {isPast && (
-            <View style={styles.statusPill}>
-              <Text style={styles.statusPillText}>Completed</Text>
+          {session.status === 'cancelled' ? (
+            <View style={[styles.statusPill, styles.statusPillCancelled]}>
+              <Text style={[styles.statusPillText, styles.statusPillTextCancelled]}>Cancelled</Text>
             </View>
+          ) : (
+            isPast && (
+              <View style={styles.statusPill}>
+                <Text style={styles.statusPillText}>Completed</Text>
+              </View>
+            )
           )}
 
           <View style={styles.detailRow}>
@@ -195,6 +201,12 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: '700',
     fontSize: 12,
+  },
+  statusPillCancelled: {
+    backgroundColor: 'rgba(255, 82, 82, 0.14)',
+  },
+  statusPillTextCancelled: {
+    color: colors.alert,
   },
   detailRow: {
     flexDirection: 'row',

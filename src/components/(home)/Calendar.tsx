@@ -6,12 +6,14 @@ interface AppCalendarProps {
   selectedDate: string;
   onSelectDate: (date: string) => void;
   markedDates?: Record<string, { marked?: boolean; dotColor?: string }>;
+  minDate?: string;
 }
 
 export default function AppCalendar({
   selectedDate,
   onSelectDate,
   markedDates = {},
+  minDate,
 }: AppCalendarProps) {
   const marks = {
     ...markedDates,
@@ -32,6 +34,7 @@ export default function AppCalendar({
         current={selectedDate || undefined}
         onDayPress={(day: DateData) => onSelectDate(day.dateString)}
         markedDates={marks}
+        minDate={minDate}
         theme={{
           backgroundColor: colors.surface,
           calendarBackground: colors.surface,

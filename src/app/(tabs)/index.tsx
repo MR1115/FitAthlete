@@ -9,29 +9,16 @@ import RecentSessionsList, { type RecentSession } from '@/components/(home)/Rece
 import RecommendedMentors from '@/components/(home)/RecommendedMentors';
 import SessionDetailSheet, { type SessionDetail } from '@/components/(home)/SessionDetailSheet';
 import SessionRow from '@/components/(home)/SessionRow';
+import { SPORT_COLORS } from '@/constants/sportColors';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { spacing } from '@/styles/dashboard';
 import { colors, globalStyles } from '@/styles/global';
 import type { SessionEvent } from '@/types/index';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
-
-const SPORT_COLORS: Record<string, string> = {
-  Basketball: '#e08a2c',
-  Soccer: '#2c9e5c',
-  Baseball: '#c0392b',
-  Football: '#8e44ad',
-  Tennis: '#d4ac0d',
-  Swimming: '#2980b9',
-  'Track & Field': '#e74c3c',
-  Volleyball: '#16a085',
-  Gymnastics: '#e91e8c',
-  Golf: '#27ae60',
-  Wrestling: '#132b61',
-};
 
 interface SessionWithMentor extends SessionEvent {
   mentor_name: string | null;
@@ -335,7 +322,7 @@ function AthleteHome() {
                 </Text>
               </View>
             ) : upcomingEvents.length > 0 ? (
-              <EventGrid events={upcomingEvents} />
+              <EventGrid events={upcomingEvents} onPressEvent={(event) => findSessionById(event.id)} />
             ) : (
               <View style={styles.emptyCard}>
                 <Ionicons name="checkmark-circle-outline" size={26} color={colors.textSecondary} />
@@ -408,7 +395,12 @@ function AthleteHome() {
         mentor={selectedMentor}
         visible={selectedMentor !== null}
         onClose={() => setSelectedMentor(null)}
-        onViewProfile={() => setSelectedMentor(null)}
+        onBookSession={() => {
+          if (!selectedMentor) return;
+          const mentorId = selectedMentor.profile_id;
+          setSelectedMentor(null);
+          router.push({ pathname: '../book-session', params: { mentorId } });
+        }}
       />
     </>
   );
