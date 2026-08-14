@@ -1,5 +1,6 @@
 import { colors } from '@/styles/global';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import {
   Modal,
   Pressable,
@@ -36,6 +37,12 @@ export default function MentorPreview({
   onViewProfile,
 }: Props) {
   if (!mentor) return null;
+
+  function handleMessage() {
+    if (!mentor) return;
+    onClose();
+    router.push(`../conversation?otherId=${mentor.profile_id}`);
+  }
 
   return (
     <Modal
@@ -145,16 +152,17 @@ export default function MentorPreview({
           
           {/** Messaging Button */}
           <Pressable
-            style={styles.disabledButton}
+            style={styles.messageButton}
+            onPress={handleMessage}
           >
             <Ionicons
               name="chatbubble-outline"
               size={18}
-              color={colors.textSecondary}
+              color={colors.primary}
             />
 
-            <Text style={styles.disabledText}>
-              Messaging Coming Soon
+            <Text style={styles.messageButtonText}>
+              Message {mentor.full_name}
             </Text>
           </Pressable>
 
@@ -255,20 +263,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  disabledButton: {
+  messageButton: {
     marginTop: 14,
     borderRadius: 14,
     paddingVertical: 14,
     borderWidth: 1,
-    borderColor: colors.surface,
+    borderColor: colors.primary,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
   },
 
-  disabledText: {
-    color: colors.textSecondary,
+  messageButtonText: {
+    color: colors.primary,
     fontWeight: '600',
   },
 });

@@ -290,7 +290,8 @@ function AthleteHome() {
     return {
       id: selectedSession.id,
       sport: selectedSession.sport,
-      mentorName: selectedSession.mentor_name ?? 'Mentor TBD',
+      otherPartyName: selectedSession.mentor_name ?? 'Mentor TBD',
+      otherPartyId: selectedSession.mentor_profile_id,
       scheduledAt: selectedSession.scheduled_at,
       location: selectedSession.location,
       price: selectedSession.price,

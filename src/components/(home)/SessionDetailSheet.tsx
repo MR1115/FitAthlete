@@ -2,13 +2,15 @@ import { supabase } from '@/lib/supabase';
 import { colors } from '@/styles/global';
 import type { SessionStatus } from '@/types/index';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export interface SessionDetail {
   id: string;
   sport: string;
-  mentorName: string;
+  otherPartyName: string;
+  otherPartyId: string | null;
   scheduledAt: string;
   location: string | null;
   price: number | null;
@@ -71,6 +73,12 @@ export default function SessionDetailSheet({ session, visible, onClose, onCancel
     onClose();
   }
 
+  function handleMessage() {
+    if (!session?.otherPartyId) return;
+    onClose();
+    router.push(`../conversation?otherId=${session.otherPartyId}`);
+  }
+
   return (
     <Modal visible={visible} transparent animationType="slide">
       <Pressable style={styles.overlay} onPress={onClose}>
@@ -78,12 +86,18 @@ export default function SessionDetailSheet({ session, visible, onClose, onCancel
           <View style={styles.handle} />
 
           <Text style={styles.sport}>{session.sport}</Text>
-          <Text style={styles.mentor}>with {session.mentorName}</Text>
+          <Text style={styles.mentor}>with {session.otherPartyName}</Text>
 
-          {isPast && (
-            <View style={styles.statusPill}>
-              <Text style={styles.statusPillText}>Completed</Text>
+          {session.status === 'cancelled' ? (
+            <View style={[styles.statusPill, styles.cancelledPill]}>
+              <Text style={[styles.statusPillText, styles.cancelledPillText]}>Cancelled</Text>
             </View>
+          ) : (
+            isPast && (
+              <View style={styles.statusPill}>
+                <Text style={styles.statusPillText}>Completed</Text>
+              </View>
+            )
           )}
 
           <View style={styles.detailRow}>
@@ -114,7 +128,7 @@ export default function SessionDetailSheet({ session, visible, onClose, onCancel
             (confirmingCancel ? (
               <View style={styles.confirmBlock}>
                 <Text style={styles.confirmText}>
-                  Cancel this session with {session.mentorName}?
+                  Cancel this session with {session.otherPartyName}?
                 </Text>
                 <View style={styles.confirmRow}>
                   <Pressable
@@ -143,9 +157,13 @@ export default function SessionDetailSheet({ session, visible, onClose, onCancel
               </Pressable>
             ))}
 
-          <Pressable style={styles.messageButton} disabled>
-            <Ionicons name="chatbubble-outline" size={18} color={colors.textSecondary} />
-            <Text style={styles.messageButtonText}>Messaging Coming Soon</Text>
+          <Pressable
+            style={[styles.messageButton, !session.otherPartyId && styles.messageButtonDisabled]}
+            onPress={handleMessage}
+            disabled={!session.otherPartyId}
+          >
+            <Ionicons name="chatbubble-outline" size={18} color={colors.primary} />
+            <Text style={styles.messageButtonText}>Message {session.otherPartyName}</Text>
           </Pressable>
         </Pressable>
       </Pressable>
@@ -195,6 +213,12 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: '700',
     fontSize: 12,
+  },
+  cancelledPill: {
+    backgroundColor: 'rgba(255, 82, 82, 0.12)',
+  },
+  cancelledPillText: {
+    color: colors.alert,
   },
   detailRow: {
     flexDirection: 'row',
@@ -264,14 +288,18 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 14,
     borderWidth: 1,
-    borderColor: 'rgba(70,70,70,0.15)',
+    borderColor: colors.primary,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
   },
+  messageButtonDisabled: {
+    borderColor: 'rgba(70,70,70,0.15)',
+    opacity: 0.6,
+  },
   messageButtonText: {
-    color: colors.textSecondary,
+    color: colors.primary,
     fontWeight: '600',
   },
 });
