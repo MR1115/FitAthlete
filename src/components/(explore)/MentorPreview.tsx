@@ -1,5 +1,6 @@
 import { colors } from '@/styles/global';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Avatar from '../(profile)/Avatar';
 
@@ -24,6 +25,12 @@ type Props = {
 
 export default function MentorPreview({ mentor, visible, onClose, onBookSession }: Props) {
   if (!mentor) return null;
+
+  function handleMessage() {
+    if (!mentor) return;
+    onClose();
+    router.push(`../conversation?otherId=${mentor.profile_id}`);
+  }
 
   return (
     <Modal visible={visible} transparent animationType="slide">
@@ -70,9 +77,20 @@ export default function MentorPreview({ mentor, visible, onClose, onBookSession 
             <Ionicons name="calendar-outline" size={18} color={colors.background} />
             <Text style={styles.bookButtonText}>Book Session</Text>
           </Pressable>
-          <Pressable style={styles.disabledButton}>
-            <Ionicons name="chatbubble-outline" size={18} color={colors.textSecondary} />
-            <Text style={styles.disabledText}>Messaging Coming Soon</Text>
+          {/** Messaging Button */}
+          <Pressable
+            style={styles.messageButton}
+            onPress={handleMessage}
+          >
+            <Ionicons
+              name="chatbubble-outline"
+              size={18}
+              color={colors.primary}
+            />
+
+            <Text style={styles.messageButtonText}>
+              Message {mentor.full_name}
+            </Text>
           </Pressable>
         </Pressable>
       </Pressable>
@@ -98,12 +116,34 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 14,
     paddingVertical: 15,
+    alignItems: 'center',
+  },
+
+  profileButtonText: {
+    color: colors.background,
+    fontWeight: '700',
+    fontSize: 16,
+  },
+
+  messageButton: {
+    marginTop: 14,
+    borderRadius: 14,
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
   },
   bookButtonText: { color: colors.background, fontWeight: '700', fontSize: 16 },
-  disabledButton: { marginTop: 14, borderRadius: 14, paddingVertical: 14, borderWidth: 1, borderColor: 'rgba(70,70,70,0.15)', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 },
-  disabledText: { color: colors.textSecondary, fontWeight: '600' },
+
+  messageButtonText: {
+    color: colors.primary,
+    fontWeight: '600',
+  },
 });
