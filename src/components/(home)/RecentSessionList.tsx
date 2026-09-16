@@ -15,14 +15,15 @@ export interface RecentSession {
 type Props = {
   sessions: RecentSession[];
   onSelectSession: (id: string) => void;
+  emptyMessage?: string;
 };
 
-export default function RecentSessionsList({ sessions, onSelectSession }: Props) {
+export default function RecentSessionsList({ sessions, onSelectSession, emptyMessage }: Props) {
   if (sessions.length === 0) {
     return (
       <View style={styles.emptyCard}>
         <Text style={styles.emptyText}>
-          Completed sessions will show up here once you've had your first practice.
+          {emptyMessage ?? "Completed sessions will show up here once you've had your first practice."}
         </Text>
       </View>
     );
