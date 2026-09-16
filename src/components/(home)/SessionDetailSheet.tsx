@@ -220,8 +220,6 @@ const styles = StyleSheet.create({
   cancelledPillText: {
     color: colors.alert,
   },
-    color: colors.alert,
-  },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
